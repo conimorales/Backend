@@ -14,7 +14,7 @@ export default class ProductManager{
         }
     }     
     
-/*     async guardarProductos (productos){
+    async guardarProductos (productos){
         try{        
         const data = JSON.stringify(productos, null, '\t')
         console.log(data)
@@ -23,33 +23,26 @@ export default class ProductManager{
             console.log("error00000")
         }
     };
- */
+
 
 
     async getAll(){
         try{
             const data = await fs.promises.readFile(this.nombreArchivo, "utf-8")
             let analys = JSON.parse(data)
+            let array_products = []
 
             for (let i = 0; i<analys.length; i++){
-                line = analys[i]
-                id = {id: {i}}
-                var obj = {...line, ...prop};
-                console.log(obj)
-
-
-                
+                analys[i]['id']= i
+                array_products.push(analys[i])
             }
-            var person = { name: 'Max', age: 23 };
-            person['id'] = 25;
-            console.log(person);
+            return array_products
 
-            // return JSON.parse(data)
         }catch(error){
             console.log("Error")
         }
     }
-/* 
+
     
     async getById (idBuscado){
         try{
@@ -121,7 +114,7 @@ export default class ProductManager{
             console.log("Error")
         }
     } 
-     */
+
 }
 
 
@@ -136,9 +129,9 @@ const archivo = new ProductManager(nombreArchivo);
 const main = async () => {
     try{           
         let products = await archivo.getAll(); 
-        // console.log(products);
+        console.log(products);
 
-/* // llamando getById
+// llamando getById
         const producto = await archivo.getById(2);
         if (producto != null) {
             console.log(producto);
@@ -162,7 +155,7 @@ const main = async () => {
 //llamando deleteAll
         await archivo.deleteAll();
         products = await archivo.getAll();
-        console.log(products); */
+        console.log(products);
     } catch (error) {
         console.log("Problemas!!!", error);
         }
