@@ -1,16 +1,16 @@
 import  fs from 'fs';
 
 export default class ProductManager{
-    constructor(nombreArchivo){
-        this.nombreArchivo = nombreArchivo;
+    constructor(path){
+        this.path = path;
     }
 
     
     async validateExisteFile () {
         try{
-            await fs.promises.stat(this.nombreArchivo)
+            await fs.promises.stat(this.path)
         }catch(error){
-            await fs.promises.writeFile(nombreArchivo, JSON.stringify([]));
+            await fs.promises.writeFile(path, JSON.stringify([]));
         }
     }     
     
@@ -18,7 +18,7 @@ export default class ProductManager{
         try{        
         const data = JSON.stringify(productos, null, '\t')
         console.log(data)
-        await fs.promises.writeFile(this.nombreArchivo, data)
+        await fs.promises.writeFile(this.path, data)
         }catch(error){
             console.log("error00000")
         }
@@ -28,7 +28,7 @@ export default class ProductManager{
 
     async getAll(){
         try{
-            const data = await fs.promises.readFile(this.nombreArchivo, "utf-8")
+            const data = await fs.promises.readFile(this.path, "utf-8")
             let analys = JSON.parse(data)
             let array_products = []
 
@@ -118,10 +118,10 @@ export default class ProductManager{
 }
 
 
-const nombreArchivo = './files/Products.json'
+const path = './files/Products.json'
 
 
-const archivo = new ProductManager(nombreArchivo);
+const archivo = new ProductManager(path);
 
 
  // Llamado a getAll
