@@ -1,12 +1,4 @@
 import  fs from 'fs';
-function sort_by_key(array, key)
-{
- return array.sort(function(a, b)
- {
-  var x = a[key]; var y = b[key];
-  return ((x < y) ? -1 : ((x > y) ? 1 : 0));
- });
-}
 
 
 
@@ -41,27 +33,26 @@ export default class ProductManager{
             const data = await fs.promises.readFile(this.path, "utf-8")
             let analys = JSON.parse(data)
             let array_products = []
-
+            let arr_products = []
+            
             for (let i = 0; i<analys.length; i++){
                 analys[i]['id']= i
-                array_products.push(analys[i])              
+                array_products.push(analys[i]) 
             }
 
-            let order = ['id', 'title', 'description', 'price', 'thumbnail', 'code', 'stock']
-
-            
-            for (let i = 0; i<analys.length; i++){
-                data = analys[i]
-                order.forEach(function(item, data) {
-                    console.log(item, data[item]);
-                });           
+            for (let i = 0; i<array_products.length; i++){
+                let dict = {}
+                dict.id = analys[i]['id']
+                dict.title = analys[i]['title']
+                dict.description = analys[i]['description']
+                dict.price = analys[i]['price']
+                dict.thumbnail = analys[i]['thumbnail']
+                dict.code = analys[i]['code']
+                dict.stock = analys[i]['stock']
+                arr_products.push(dict)
             }
+            return arr_products
 
-
-
-
-            
-            // return people
 
         }catch(error){
             console.log("Error")
@@ -69,7 +60,7 @@ export default class ProductManager{
     }
 
     
-    async getById (idBuscado){
+    async getProductById (idBuscado){
         try{
            // const productos = await obtenerProductos();
             const productos = await this.getAll();
@@ -85,30 +76,53 @@ export default class ProductManager{
         }
     }
     
-    async save(data) {
-        
-        if(!data.title || !data.price || typeof data.title !== 'string' || typeof data.price !== 'number') throw new Error('Datos invalidos');
+
     
-            //const productos = await obtenerProductos();
-        try{
-            const productos = await this.getAll();
-            let id = 1;
-    
-            if(productos.length){	//Si tengo elementos en mi array
-                id = productos[productos.length -1].id + 1;
+    async AddProduct(data) {
+        let arr_add = []
+        arr_add.push(data)
+
+        const productos = await this.getAll();
+        let id = 1;
+
+        if(productos.length){	//Si tengo elementos en mi array
+            id = productos[productos.length -1].id + 1;
+        }
+        let dict = {}
+        let revisa_error_1 = []
+        let revisa_error_2 = []
+        for (let i = 0; i<arr_add.length; i++){
+            if (arr_add[i]['title']==null ||arr_add[i]['description']==null || arr_add[i]['price']== null || arr_add[i]['thumbnail']== null || 
+            arr_add[i]['code']== null || arr_add[i]['stock']== null || typeof data.price !== 'number' ){
+                revisa_error_1.push('Datos Inválidos')
             }
-        
-            const nuevoProducto = {
-                title: data.title,
-                price: data.price,
-                id: id,
-            };
-        
-            productos.push(nuevoProducto);
+            for (let j = 0; j<productos.length; j++){
+                if (productos[j]['title'] == arr_add[i]['title'] || productos[j]['code'] == arr_add[i]['code'] ){
+                    revisa_error_2.push('Datos Inválidos')
+                }               
+            }
+        }
+
+        if (revisa_error_1[0] == 'Datos Inválidos' || revisa_error_2[0] == 'Datos Inválidos'){
+            console.log('Datos Inválidos')
+        } 
+
+        else{
+            for (let i = 0; i<arr_add.length; i++){
+
+                dict.id = id
+                dict.title = arr_add[i]['title']
+                dict.description = arr_add[i]['description']
+                dict.price = arr_add[i]['price']
+                dict.thumbnail = arr_add[i]['thumbnail']
+                dict.code = arr_add[i]['code']
+                dict.stock = arr_add[i]['stock']
+            }
+
+            productos.push(dict);
             await this.guardarProductos(productos);
-        }catch(error){
-            console.log("Problemas al guardar el producto")
-        }        
+        }
+
     }
     
     async deleteAll(){
@@ -155,32 +169,32 @@ const main = async () => {
     try{           
         let products = await archivo.getAll(); 
         console.log(products);
-/* 
-// llamando getById
-        const producto = await archivo.getById(2);
+
+// llamando getProductById
+        const producto = await archivo.getProductById(3);
         if (producto != null) {
             console.log(producto);
-        }  */
-/* 
-//llamando save
+        }  
 
-        const nuevoProducto = { title: "Remera", price: 20 };
-        await archivo.save(nuevoProducto);
-        products = await archivo.getAll();
-        console.log(products);
- */
-/* //llamando deleteById
-        try {
-            await archivo.deleteById(4);
+//llamando AddProduct
+
+        const nuevoProducto = { title: "Product 6", description: "lal", price: 20, thumbnail: "dd", code: "AKK2", stock: 4};
+        
+        await archivo.AddProduct(nuevoProducto);
+        console.log(products);  
+
+ //llamando deleteById
+    try {
+            await archivo.deleteById(3);
             products = await archivo.getAll();
             console.log(products);
         } catch (error) {
             console.log(error);
-        }  */
+        }   
 //llamando deleteAll
-        /* await archivo.deleteAll();
+        await archivo.deleteAll();
         products = await archivo.getAll();
-        console.log(products); */
+        console.log(products); 
     } catch (error) {
         console.log("Problemas!!!", error);
         }

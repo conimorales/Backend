@@ -1,37 +1,47 @@
 [
 	{
+		"id": 0,
 		"title": "Product 1",
-		"detail": "Lorem ipsum dolor sit amet",
+		"description": "Lorem ipsum dolor sit amet",
 		"price": "99",
-		"offer": "BOGOF",
-		"image": "http://placehold.it/300x300/999/CCC"
+		"thumbnail": "http://placehold.it/300x300/999/CCC",
+		"code": "BOGOF",
+		"stock": 3
 	},
 	{
+		"id": 1,
 		"title": "Product 2",
-		"detail": "Lorem ipsum dolor sit amet",
+		"description": "Lorem ipsum dolor sit amet",
 		"price": "99",
-		"offer": "BOGOF",
-		"image": "http://placehold.it/300x300/999/CCC"
+		"thumbnail": "http://placehold.it/300x300/999/CCC",
+		"code": "BOGOF",
+		"stock": 4
 	},
 	{
+		"id": 2,
 		"title": "Product 3",
-		"detail": "Lorem ipsum dolor sit amet",
+		"description": "Lorem ipsum dolor sit amet",
 		"price": "99",
-		"image": "http://placehold.it/300x300/999/CCC"
+		"thumbnail": "http://placehold.it/300x300/999/CCC",
+		"code": "AKSK",
+		"stock": 5
 	},
 	{
-		"title": "Product 4",
-		"detail": "Lorem ipsum dolor sit amet",
-		"price": "99",
-		"offer": "No srsly GTFO",
-		"image": "http://placehold.it/300x300/999/CCC"
+		"id": 3,
+		"title": "Product 5",
+		"description": "lal",
+		"price": 20,
+		"thumbnail": "dd",
+		"code": "AKKAS",
+		"stock": 4
 	},
 	{
+		"id": 4,
 		"title": "Product 6",
-		"detail": "Lorem ipsum dolor sit amet",
-		"price": "99",
-		"info": "This is the latest and greatest product from Derp corp.",
-		"offer": "info with offer",
-		"image": "http://placehold.it/300x300/999/CCC"
+		"description": "lal",
+		"price": 20,
+		"thumbnail": "dd",
+		"code": "AKK2",
+		"stock": 4
 	}
 ]
