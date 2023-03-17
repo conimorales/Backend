@@ -1,4 +1,14 @@
 import  fs from 'fs';
+function sort_by_key(array, key)
+{
+ return array.sort(function(a, b)
+ {
+  var x = a[key]; var y = b[key];
+  return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+ });
+}
+
+
 
 export default class ProductManager{
     constructor(path){
@@ -34,9 +44,24 @@ export default class ProductManager{
 
             for (let i = 0; i<analys.length; i++){
                 analys[i]['id']= i
-                array_products.push(analys[i])
+                array_products.push(analys[i])              
             }
-            return array_products
+
+            let order = ['id', 'title', 'description', 'price', 'thumbnail', 'code', 'stock']
+
+            
+            for (let i = 0; i<analys.length; i++){
+                data = analys[i]
+                order.forEach(function(item, data) {
+                    console.log(item, data[item]);
+                });           
+            }
+
+
+
+
+            
+            // return people
 
         }catch(error){
             console.log("Error")
@@ -130,32 +155,32 @@ const main = async () => {
     try{           
         let products = await archivo.getAll(); 
         console.log(products);
-
+/* 
 // llamando getById
         const producto = await archivo.getById(2);
         if (producto != null) {
             console.log(producto);
-        } 
-
+        }  */
+/* 
 //llamando save
 
         const nuevoProducto = { title: "Remera", price: 20 };
         await archivo.save(nuevoProducto);
         products = await archivo.getAll();
         console.log(products);
-
-//llamando deleteById
+ */
+/* //llamando deleteById
         try {
             await archivo.deleteById(4);
             products = await archivo.getAll();
             console.log(products);
         } catch (error) {
             console.log(error);
-        } 
+        }  */
 //llamando deleteAll
-        await archivo.deleteAll();
+        /* await archivo.deleteAll();
         products = await archivo.getAll();
-        console.log(products);
+        console.log(products); */
     } catch (error) {
         console.log("Problemas!!!", error);
         }
