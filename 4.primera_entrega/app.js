@@ -33,5 +33,18 @@ app.get('./products/:pid', async (req, res) => {
 })
 
 
+app.get('/carts', async (req, res) => {
+    const products = await pm.getAll()
+    const limit = req.query.limit;
+    let respuesta = products
+
+    if (limit && !isNaN(Number(limit))) {
+        respuesta = products.slice(0, limit)
+    }
+    res.send(respuesta);
+});
+
+
+
 app.listen(port,() => console.log(`Servicio Levantado en el Puerto ${port}`));
 
