@@ -18,6 +18,17 @@ class ProductManager {
             await fs.promises.writeFile(path, JSON.stringify([]));
         }
     }  
+
+    async guardarProductos (productos){
+        try{        
+        const data = JSON.stringify(productos, null, '\t')
+        console.log(data)
+        await fs.promises.writeFile(this.path, data)
+        }catch(error){
+            console.log("error00000")
+        }
+    };
+
     
     
     async getAll() {
@@ -36,10 +47,13 @@ class ProductManager {
                 dict.id = analys[i]['id']
                 dict.title = analys[i]['title']
                 dict.description = analys[i]['description']
-                dict.price = analys[i]['price']
-                dict.thumbnail = analys[i]['thumbnail']
                 dict.code = analys[i]['code']
+                dict.price = analys[i]['price']
+                dict.status = analys[i]['status']
                 dict.stock = analys[i]['stock']
+                dict.thumbnail = analys[i]['thumbnail']
+                
+                
                 arr_products.push(dict)
             }
             return arr_products
@@ -102,10 +116,13 @@ class ProductManager {
                 dict.id = id
                 dict.title = arr_add[i]['title']
                 dict.description = arr_add[i]['description']
-                dict.price = arr_add[i]['price']
-                dict.thumbnail = arr_add[i]['thumbnail']
                 dict.code = arr_add[i]['code']
+                dict.price = arr_add[i]['price']
+                dict.status = arr_add[i]['status']
                 dict.stock = arr_add[i]['stock']
+                dict.category = arr_add[i]['category']
+                dict.thumbnail = arr_add[i]['thumbnail']
+                
             }
 
             productos.push(dict);

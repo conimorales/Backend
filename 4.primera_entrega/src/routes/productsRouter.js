@@ -25,18 +25,25 @@ productsRouter.get('/:pid', async (req, res) => {
 productsRouter.post('/', async (req, res) => {
 
     const product = {
-        title: req.body.title,
-        description: req.body.description,
-        code: String(req.body.code),
-        price: Number(req.body.price),
+        title: String(req.query.title),
+        description: String(req.query.description),
+        code: String(req.query.code),
+        price: Number(req.query.price),
         status: true,
-        stock: Number(req.body.stock),
-        category: req.body.category,
-        thumbnail: [req.body.thumbnail]
+        stock: Number(req.query.stock),
+        category: String(req.query.category),
+        thumbnail: [req.query.thumbnail]
+    } 
+    if (req.query.title === ''  || req.query.description === '' || req.query.code === '' || req.query.price === '' || req.query.stock === ''  || req.query.category === ''  ){
+        res.send('Error no completaste un campo')
+    }
+    else{
+        const response = await gestionProd.AddProduct(product)
+        res.send(response);
     }
 
-    await gestionProd.AddProduct(product)
-    res.send("product added");
+
+    
 });
 
 productsRouter.put('/:pid', async (req, res) => {

@@ -1,1 +1,35 @@
-[{"id":0,"title":"Product 1","description":"Lorem ipsum dolor sit amet","price":"99","thumbnail":"http://placehold.it/300x300/999/CCC","code":"BOGOF","stock":3},{"id":1,"title":"Product 2","description":"Lorem ipsum dolor sit amet","price":"99","thumbnail":"http://placehold.it/300x300/999/CCC","code":"BOGOF","stock":4},{"id":2,"title":"Product 2","code":"undefined","price":null,"status":true,"stock":null,"thumbnail":[null]},{"id":3,"title":"Product 5","description":"lal","price":20,"thumbnail":"dd","code":"AKKAS","stock":4},{"id":4,"title":"Product 6","description":"lal","price":20,"thumbnail":"dd","code":"AKK2","stock":4}]
+[
+	{
+		"id": 0,
+		"title": "Product 1",
+		"description": "Lorem ipsum dolor sit amet",
+		"code": "BOGOF",
+		"price": "99",
+		"status": true,
+		"stock": 3,
+		"thumbnail": "http://placehold.it/300x300/999/CCC"
+	},
+	{
+		"id": 1,
+		"title": "Product 2",
+		"description": "Lorem ipsum dolor sit amet",
+		"code": "BOF",
+		"price": "99",
+		"status": true,
+		"stock": 4,
+		"thumbnail": "http://placehold.it/300x300/999/CCC"
+	},
+	{
+		"id": 2,
+		"title": "prueba",
+		"description": "prueba",
+		"code": "kdjkd",
+		"price": null,
+		"status": true,
+		"stock": 12,
+		"category": "ckdk",
+		"thumbnail": [
+			null
+		]
+	}
+]
