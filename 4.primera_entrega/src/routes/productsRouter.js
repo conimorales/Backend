@@ -24,16 +24,7 @@ productsRouter.get('/:pid', async (req, res) => {
 
 productsRouter.post('/', async (req, res) => {
 
-    const products = await gestionProd.geAll()
-    const idGenerator = () => {
-        let id = 1
-        const lastProduct = products[products.length - 1]
-        if (lastProduct) {id = lastProduct.id + 1}
-        return id
-    }
-
     const product = {
-        id: idGenerator(),
         title: req.body.title,
         description: req.body.description,
         code: String(req.body.code),
@@ -41,11 +32,11 @@ productsRouter.post('/', async (req, res) => {
         status: true,
         stock: Number(req.body.stock),
         category: req.body.category,
-        thumbnail: [req.body.thumbnail],
+        thumbnail: [req.body.thumbnail]
     }
 
-    await gestionProd.addProduct(product)
-    res.status(200).send('product added')
+    await gestionProd.AddProduct(product)
+    res.send("product added");
 });
 
 productsRouter.put('/:pid', async (req, res) => {
