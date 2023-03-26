@@ -1,5 +1,3 @@
-// import File System
-const fsPromises = require('fs').promises
 
 const fs = require("fs");
 
