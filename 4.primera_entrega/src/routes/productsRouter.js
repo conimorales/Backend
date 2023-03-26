@@ -47,7 +47,6 @@ productsRouter.post('/', async (req, res) => {
 });
 
 productsRouter.put('/:pid', async (req, res) => {
-    productList = await gestionProd.getAll()
 
     const { pid } = req.params;
     const productUpdated = {
@@ -55,14 +54,23 @@ productsRouter.put('/:pid', async (req, res) => {
         description: String(req.body.description),
         code: String(req.body.code),
         price: Number(req.body.price),
-        status: true,
+        status: Boolean(true),
         stock: Number(req.body.stock),
         category: String(req.body.category),
         thumbnail: [req.body.thumbnail]
     }
-    gestionProd.updateFile(Number(pid), productUpdated)
 
-    res.status(200).send('product updated')
+    if (req.body.title === ''  || req.body.description === '' || req.body.code === '' || req.body.price === '' || req.body.stock === ''  || req.body.category === ''  ){
+        res.send('Error no completaste un campo')
+    }
+    else{
+        data = await gestionProd.updateProduct(Number(pid), productUpdated)
+        res.send(data)
+    
+    }
+
+
+
 })
 
 productsRouter.delete('/:pid', (req, res) => {

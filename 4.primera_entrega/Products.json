@@ -1,13 +1,15 @@
 [
 	{
 		"id": 0,
-		"title": "Product 1",
+		"title": "Producto laaala",
 		"description": "Lorem ipsum dolor sit amet",
 		"code": "BOGOF",
-		"price": "99",
+		"price": 995,
 		"status": true,
 		"stock": 3,
-		"thumbnail": "http://placehold.it/300x300/999/CCC"
+		"thumbnail": [
+			"http://placehold.it/300x300/999/CCC"
+		]
 	},
 	{
 		"id": 1,
@@ -27,7 +29,6 @@
 		"price": null,
 		"status": true,
 		"stock": 12,
-		"category": "ckdk",
 		"thumbnail": [
 			null
 		]

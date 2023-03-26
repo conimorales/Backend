@@ -160,52 +160,30 @@ class ProductManager {
 
 
 
-    async updateProduct(id_prod, {title, description, code, price, status, stock, category, thumbnail}){
-        // Actualiza un producto
-        let productList =  await this.getAll();
-
-        let index = productList.findIndex(product => product.id == id_prod);
-
-        if(index >= 0){
-            let product = productList[index];
-
-            if(product.title != title && title ){
-                productList[index].title = title;
+    async updateProduct(idBuscado, productUpdated){
+        const productos = await this.getAll();
+        const indice = productos.findIndex((unProducto) => unProducto.id === idBuscado );
+        if(indice < 0) {
+            console.log('El producto no existe')
+        }
+        else{
+            const productUpdate= [productUpdated]
+            for (let i = 0; i < productos.length; ++i) {
+                if (productos[i]['id'] === idBuscado) {
+                    productos[i]['title'] = productUpdate[0]['title'];
+                    productos[i]['description'] = productUpdate[0]['description'];
+                    productos[i]['code'] = productUpdate[0]['code'];
+                    productos[i]['price'] = productUpdate[0]['price'];
+                    productos[i]['status'] = productUpdate[0]['status'];
+                    productos[i]['stock'] = productUpdate[0]['stock'];
+                    productos[i]['thumbnail'] = productUpdate[0]['thumbnail'];
+                }
             }
-            if(product.description != description && description){
-                productList[index].description = description;
-            }
-
-            if(product.code != code && code){
-                productList[index].code = code;
-            }
-
-            if(product.price != price && price){
-                productList[index].price = price;
-            }
-
-            if(product.status != status && status){
-                productList[index].status = status;
-            }
-
-            if(product.stock != stock && stock){
-                productList[index].stock = stock;
-            }
-
-            if(product.category != category && category){
-                productList[index].category = category;
-            }
-
-            if(product.thumbnail != thumbnail && thumbnail){
-                productList[index].thumbnail = thumbnail;
-            }
-
-            fs.writeFileSync(this.path,JSON.stringify(productList, null, 2));
-            return productList[index];
-        }else{
-            return {err: 'The product is not in the list.'}
+            
+            await this.guardarProductos(productos);
         }
     }
+
 }
 
 const gestionProd = new ProductManager(path)
