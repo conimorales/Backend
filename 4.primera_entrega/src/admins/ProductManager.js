@@ -54,7 +54,6 @@ class ProductManager {
 
     async getProductById (idBuscado){
         try{
-           // const productos = await obtenerProductos();
             const productos = await this.getAll();
             const indice = productos.findIndex((unProducto) => unProducto.id === idBuscado );
         
@@ -142,25 +141,52 @@ class ProductManager {
         }
     } 
 
-    async writeFileProducts(data) {
-        try {
-            await fsPromises.writeFile(path, JSON.stringify(data))
-            console.log('productos escritos con exito')
-        } catch (error) {
-            throw new Error(error)
-        }
-    }
 
-    async updateFile(id, obj) {
-        const fileContent = await this.getAll();
-        try {
-            let productFoundIndex = fileContent.findIndex((p) => p.id === id)
-            fileContent[productFoundIndex] = { id: id, ...obj }
-            this.writeFileProducts(fileContent)
-            console.log('product updated')
-        } catch (error) {
-            console.error(`Error: producto con el ${id} no ha sido actualizado`)
-            throw new Error(error)
+
+    async updateProduct(id_prod, {title, description, code, price, status, stock, category, thumbnail}){
+        // Actualiza un producto
+        let productList =  await this.getAll();
+
+        let index = productList.findIndex(product => product.id == id_prod);
+
+        if(index >= 0){
+            let product = productList[index];
+
+            if(product.title != title && title ){
+                productList[index].title = title;
+            }
+            if(product.description != description && description){
+                productList[index].description = description;
+            }
+
+            if(product.code != code && code){
+                productList[index].code = code;
+            }
+
+            if(product.price != price && price){
+                productList[index].price = price;
+            }
+
+            if(product.status != status && status){
+                productList[index].status = status;
+            }
+
+            if(product.stock != stock && stock){
+                productList[index].stock = stock;
+            }
+
+            if(product.category != category && category){
+                productList[index].category = category;
+            }
+
+            if(product.thumbnail != thumbnail && thumbnail){
+                productList[index].thumbnail = thumbnail;
+            }
+
+            fs.writeFileSync(this.path,JSON.stringify(productList, null, 2));
+            return productList[index];
+        }else{
+            return {err: 'The product is not in the list.'}
         }
     }
 }

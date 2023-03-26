@@ -2,7 +2,7 @@
 const express = require('express')
 const productsRouter = express.Router()
 // import File System
-const { gestionProd } = require('../fileSystem/ProductManager')
+const { gestionProd } = require('../admins/ProductManager')
 
 // Methods
 productsRouter.get('/', async (req, res) => {
@@ -40,21 +40,18 @@ productsRouter.post('/', async (req, res) => {
 });
 
 productsRouter.put('/:pid', async (req, res) => {
-    // deberá tomar un producto y actualizarlo por los campos enviados desde body. NUNCA se debe actualizar o eliminar el id al momento de hacer dicha actualización.
-    const { pid } = req.params;
-    const productUpdated = {
-        title: req.body.title,
-        description: req.body.description,
-        code: String(req.body.code),
-        price: Number(req.body.price),
-        status: true,
-        stock: Number(req.body.stock),
-        category: req.body.category,
-        thumbnail: [req.body.thumbnail] //opcional
-    }
-    gestionProd.updateFile(Number(pid), productUpdated)
+    productList = await gestionProd.getAll()
 
-    res.send('product updated');
+    const { pid } = req.params;
+    const {title, description, code, price, status,  stock, category, thumbnail} = req.body;
+
+    const result = productList.updateProduct(pid, {title, description, code, price, status,  stock, category, thumbnail});
+
+    if(result.err){
+        res.status(400).send(result)
+    }else{
+        res.status(200).send(result)
+    }
 })
 
 productsRouter.delete('/:pid', (req, res) => {
