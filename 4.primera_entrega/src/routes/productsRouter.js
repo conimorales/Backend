@@ -50,23 +50,25 @@ productsRouter.put('/:pid', async (req, res) => {
     productList = await gestionProd.getAll()
 
     const { pid } = req.params;
-    const {title, description, code, price, status,  stock, category, thumbnail} = req.body;
-
-    const result = productList.updateProduct(pid, {title, description, code, price, status,  stock, category, thumbnail});
-
-    if(result.err){
-        res.status(400).send(result)
-    }else{
-        res.status(200).send(result)
+    const productUpdated = {
+        title: String(req.body.title),
+        description: String(req.body.description),
+        code: String(req.body.code),
+        price: Number(req.body.price),
+        status: true,
+        stock: Number(req.body.stock),
+        category: String(req.body.category),
+        thumbnail: [req.body.thumbnail]
     }
+    gestionProd.updateFile(Number(pid), productUpdated)
+
+    res.status(200).send('product updated')
 })
 
 productsRouter.delete('/:pid', (req, res) => {
-    // deberá eliminar el producto con el pid indicado.
     const { pid } = req.params
-    gestionProd.deleteById(Number(pid))
-    res.status(200).send('product deleted')
-
+    response = gestionProd.deleteById(Number(pid))
+    res.send(response)
 })
 
 // exports

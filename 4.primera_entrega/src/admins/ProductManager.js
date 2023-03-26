@@ -140,18 +140,18 @@ class ProductManager {
     
     async deleteById(idBuscado){
         try{
-            console.log("idbuscado",idBuscado)//
+            //console.log("idbuscado",idBuscado)//
             const productos = await this.getAll();
         
             const indice = productos.findIndex((unProducto) => unProducto.id === idBuscado );
-            console.log(indice)//
+            
             if(indice < 0) {
-                return;
+                return error
             }
-        
-            productos.splice(indice, 1);
-        
-            await this.guardarProductos(productos);
+            else{
+                productos.splice(indice, 1);
+                await this.guardarProductos(productos);
+            }
         }catch(error)
         {
             console.log("Error")
