@@ -12,8 +12,8 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 // routes
-app.use('/products', productsRouter)
-app.use('/carts', cartsRouter)
+app.use('/api/products', productsRouter)
+app.use('/api/carts', cartsRouter)
 
 // port
 const port = process.env.PORT || 8070;

@@ -22,10 +22,7 @@ class ProductManager {
     
     async getAll() {
         const data = await fs.promises.readFile(path, 'utf-8')
-        return data
-
-        
-       /*  let analys = JSON.parse(data)
+        let analys = JSON.parse(data)
             let array_products = []
             let arr_products = []
             
@@ -46,7 +43,6 @@ class ProductManager {
                 arr_products.push(dict)
             }
             return arr_products
- */
         
 
         } catch (error) {

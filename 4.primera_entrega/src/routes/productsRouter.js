@@ -17,14 +17,13 @@ productsRouter.get('/', async (req, res) => {
 });
 
 productsRouter.get('/:pid', async (req, res) => {
-    // deberá traer sólo el producto con el id proporcionado.
     const { pid } = req.params;
     const product = await gestionProd.getProductById(Number(pid))
-    res.status(200).send(product)
+    res.send(product);
 });
 
 productsRouter.post('/', async (req, res) => {
-    // deberá agregar un nuevo producto con sus campos correspondientes.
+
     const products = await gestionProd.geAll()
     const idGenerator = () => {
         let id = 1
