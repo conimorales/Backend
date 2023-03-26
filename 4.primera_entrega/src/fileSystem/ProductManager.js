@@ -1,37 +1,31 @@
-//import  fs from 'fs';
+// import File System
+const fsPromises = require('fs').promises
 
 const fs = require("fs");
 
-class ProductManager{
+const path = './Products.json'
+
+
+class ProductManager {
     constructor(path){
         this.path = path;
     }
 
-    
     async validateExisteFile () {
         try{
-            await fs.promises.stat(this.path)
+            await fs.promises.stat(path)
         }catch(error){
             await fs.promises.writeFile(path, JSON.stringify([]));
         }
-    }     
+    }  
     
-    async guardarProductos (productos){
-        try{        
-        const data = JSON.stringify(productos, null, '\t')
-        console.log(data)
-        await fs.promises.writeFile(this.path, data)
-        }catch(error){
-            console.log("error00000")
-        }
-    };
+    
+    async getAll() {
+        const data = await fs.promises.readFile(path, 'utf-8')
+        return data
 
-
-
-    async getAll(){
-        try{
-            const data = await fs.promises.readFile(this.path, "utf-8")
-            let analys = JSON.parse(data)
+        
+       /*  let analys = JSON.parse(data)
             let array_products = []
             let arr_products = []
             
@@ -52,14 +46,16 @@ class ProductManager{
                 arr_products.push(dict)
             }
             return arr_products
+ */
+        
 
-
-        }catch(error){
-            console.log("Error")
+        } catch (error) {
+            console.error('Error: no se encontraron productos en el archivo')
+            throw new Error(error)
         }
-    }
-
     
+
+
     async getProductById (idBuscado){
         try{
            // const productos = await obtenerProductos();
@@ -75,9 +71,7 @@ class ProductManager{
             console.log("Problema con el producto solicitado")
         }
     }
-    
 
-    
     async AddProduct(data) {
         let arr_add = []
         arr_add.push(data)
@@ -122,7 +116,6 @@ class ProductManager{
             productos.push(dict);
             await this.guardarProductos(productos);
         }
-
     }
     
     async deleteAll(){
@@ -131,7 +124,6 @@ class ProductManager{
         }catch(error){
             console.log("problemas para eliminar todos los productos")
         }
-        
     }
     
     async deleteById(idBuscado){
@@ -153,14 +145,11 @@ class ProductManager{
             console.log("Error")
         }
     } 
-
 }
 
+const gestionProd = new ProductManager(path)
 
-const path = './Products.json'
-
-
-const archivo = new ProductManager(path);
-
-module.exports = ProductManager
-
+// exports
+module.exports = {
+    gestionProd
+}

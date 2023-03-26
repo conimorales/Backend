@@ -1,6 +1,5 @@
 [
 	{
-		"id": 0,
 		"title": "Product 1",
 		"description": "Lorem ipsum dolor sit amet",
 		"price": "99",
@@ -9,7 +8,7 @@
 		"stock": 3
 	},
 	{
-		"id": 1,
+
 		"title": "Product 2",
 		"description": "Lorem ipsum dolor sit amet",
 		"price": "99",
@@ -18,7 +17,7 @@
 		"stock": 4
 	},
 	{
-		"id": 2,
+
 		"title": "Product 3",
 		"description": "Lorem ipsum dolor sit amet",
 		"price": "99",
@@ -27,7 +26,7 @@
 		"stock": 5
 	},
 	{
-		"id": 3,
+
 		"title": "Product 5",
 		"description": "lal",
 		"price": 20,
@@ -36,7 +35,7 @@
 		"stock": 4
 	},
 	{
-		"id": 4,
+
 		"title": "Product 6",
 		"description": "lal",
 		"price": 20,
