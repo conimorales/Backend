@@ -54,13 +54,13 @@ productsRouter.put('/:pid', async (req, res) => {
     }
     gestionProd.updateFile(Number(pid), productUpdated)
 
-    res.status(200).send('product updated')
+    res.send('product updated');
 })
 
 productsRouter.delete('/:pid', (req, res) => {
     // deberá eliminar el producto con el pid indicado.
     const { pid } = req.params
-    gestionProd.deleteProduct(Number(pid))
+    gestionProd.deleteById(Number(pid))
     res.status(200).send('product deleted')
 
 })

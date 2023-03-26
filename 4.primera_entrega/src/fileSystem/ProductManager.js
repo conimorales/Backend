@@ -141,6 +141,28 @@ class ProductManager {
             console.log("Error")
         }
     } 
+
+    async writeFileProducts(data) {
+        try {
+            await fsPromises.writeFile(path, JSON.stringify(data))
+            console.log('productos escritos con exito')
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
+
+    async updateFile(id, obj) {
+        const fileContent = await this.getAll();
+        try {
+            let productFoundIndex = fileContent.findIndex((p) => p.id === id)
+            fileContent[productFoundIndex] = { id: id, ...obj }
+            this.writeFileProducts(fileContent)
+            console.log('product updated')
+        } catch (error) {
+            console.error(`Error: producto con el ${id} no ha sido actualizado`)
+            throw new Error(error)
+        }
+    }
 }
 
 const gestionProd = new ProductManager(path)
