@@ -11,6 +11,17 @@ class CartManager {
         this.path = path;
     }
 
+    async #readFileCarts() {
+        try {
+            const content = await fsPromises.readFile(path, 'utf-8')
+            const contentParse = JSON.parse(content)
+            return contentParse
+        } catch (error) {
+            console.error('Error: failed to read file')
+            throw new Error(error)
+        }
+    }
+
     async validateExisteFile () {
         try{
             await fs.promises.stat(path)
@@ -29,28 +40,29 @@ class CartManager {
         }
     };
 
-    async createCartJSON() {
+
+    async getAll() {
         const data = await fs.promises.readFile(path, 'utf-8')
         let analys = JSON.parse(data)
-        let array_cart = []
-        let arr_cart = []
+            let array_products = []
+            let arr_products = []
             
             for (let i = 0; i<analys.length; i++){
                 analys[i]['id']= i
-                array_cart.push(analys[i]) 
+                array_products.push(analys[i]) 
             }
 
-            for (let i = 0; i<array_cart.length; i++){
+            for (let i = 0; i<array_products.length; i++){
                 let dict = {}
                 dict.id = analys[i]['id']
-                dict.products = analys[i]['products']             
-                arr_cart.push(dict)
+                dict.title = analys[i]['products']
+                arr_products.push(dict)
             }
-            await this.guardarCarts(arr_cart);
+            return arr_products
         
 
         } catch (error) {
-            console.error('Error')
+            console.error('Error: no se encontraron productos en el archivo')
             throw new Error(error)
         }
     
@@ -75,6 +87,7 @@ class CartManager {
         let analys = data
         let array_products = []
         let arr_products = []
+
         
         for (let i = 0; i<analys.length; i++){
             analys[i]['id']= i
@@ -90,8 +103,31 @@ class CartManager {
         }
         await this.guardarCarts(arr_products);
     }
-    
+    async addToCart(cart, product) {
+        const fileContent = await this.#readFileCarts()
+        // agregar el producto al carrito
+        try {
+                let cartFoundIndex = fileContent.findIndex((c) => c.id === cart.id)
+                let productFoundIndex = fileContent[cartFoundIndex].products.findIndex((p) => p.id === product.id)
+                let productNotExist = true
+                if(fileContent[cartFoundIndex].products[productFoundIndex]) {
+                    fileContent[cartFoundIndex].products[productFoundIndex].quantity = fileContent[cartFoundIndex].products[productFoundIndex].quantity + 1
+                    this.writeFileCarts(fileContent) // ver si puedo poner un solo writeFile al final de los if
+                    console.log('se aumenta el valor quantity')
+                } else if(productNotExist) {
+                    fileContent[cartFoundIndex].products.push(product)
+                    this.writeFileCarts(fileContent)
+                    console.log('product added to cart')
+                    console.log('sea agreaga un product al array')   
+                }
+                console.log('afuera de los if')
 
+            } catch (error) {
+                console.error(`Error: product not added to cart with ${cart.id}`)
+                throw new Error(error)
+            }
+    }
+ 
 
 }
 
@@ -104,84 +140,3 @@ module.exports = {
 }
 
 
-/* class CartManager{
-    constructor(path){
-        this.path = path;
-    }
-
-    createCart(){
-        const cartList = this.getData();
-        const cart = {products: []}
-
-        // Asignarle un ID
-        if(cartList.length == 0){
-            cart.id = 1
-        }else{
-            let lastItemID = cartList[cartList.length - 1].id
-            cart.id = lastItemID + 1
-        }
-
-        cartList.push(cart);
-        fs.writeFileSync(this.path,JSON.stringify(cartList, null, 2))
-        return cart;
-    }
-
-    getCartByID(cid){
-        // conseguir un carrito por su ID
-        const cartList = this.getData();
-
-        let searchCart = cartList.find(cart => cart.id == cid);
-        if(searchCart){
-            return searchCart;
-        }else{
-            return {err: 'A cart with that ID does not exist.'};
-        }
-    }
-
-    addProductToCart(cid, pid){
-        // Agregar un producto al carrito
-        const cartList = this.getData();
-
-        let indexCart = cartList.findIndex(cart => cart.id == cid);
-        if(indexCart == -1){
-            return {err: 'A cart with that ID does not exist.'};
-        }
-
-        // Ver si el producto ya se encuentra en el carrito
-        let productIndex = cartList[indexCart].products.findIndex(prod => prod.id == pid )
-        if(productIndex == -1){
-            const toAdd = {id: pid, quantity: 1}
-
-            cartList[indexCart].products.push(toAdd)
-            fs.writeFileSync(this.path,JSON.stringify(cartList, null, 2))
-
-            return {message: 'added to cart', cart: cartList[indexCart].products};
-        
-        }else{
-            cartList[indexCart].products[productIndex].quantity += 1;
-
-            fs.writeFileSync(this.path,JSON.stringify(cartList, null, 2))
-
-            return {message: 'added to cart', cart: cartList[indexCart].products}
-        }
-    }
-    
-    getData(){
-        // Extrae data del archivo. Si no existe aun, devuelve un array vacio.
-        let data = []
-        try{
-            const productos = JSON.parse(fs.readFileSync(this.path, 'utf-8'))
-            productos.forEach(element => {
-                data.push(element)
-            });
-
-        }catch{
-            console.log('The file was empty or did not exist.')
-        }
-        return data;
-    }
-
-}
-
-export default CartManager;
- */
