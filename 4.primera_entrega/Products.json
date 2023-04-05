@@ -1,6 +1,5 @@
 [
 	{
-		"id": 0,
 		"title": "Producto laaala",
 		"description": "Lorem ipsum dolor sit amet",
 		"code": "BOGOF",
@@ -12,7 +11,6 @@
 		]
 	},
 	{
-		"id": 1,
 		"title": "Product 2",
 		"description": "Lorem ipsum dolor sit amet",
 		"code": "BOF",
@@ -22,7 +20,6 @@
 		"thumbnail": "http://placehold.it/300x300/999/CCC"
 	},
 	{
-		"id": 2,
 		"title": "prueba",
 		"description": "prueba",
 		"code": "kdjkd",

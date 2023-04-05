@@ -1,7 +1,7 @@
-// --- imports packages ---
+
 const express = require('express')
 const productsRouter = express.Router()
-// import File System
+
 const { gestionProd } = require('../admins/ProductManager')
 
 // Methods
